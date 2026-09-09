@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatCurrency(amount: number | string | null | undefined, currency = 'ج.م'): string {
   const num = typeof amount === 'string' ? parseFloat(amount) : (amount ?? 0);
   if (isNaN(num)) return `0 ${currency}`;
-  const formatted = new Intl.NumberFormat('ar-EG', {
+  const formatted = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(num);

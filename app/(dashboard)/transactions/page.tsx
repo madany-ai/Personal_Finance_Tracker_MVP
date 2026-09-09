@@ -7,11 +7,13 @@ import {
   ArrowLeftRight,
   Plus,
   Trash2,
+  Edit2,
   Loader2,
   Filter,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import QuickTransactionModal from '@/components/dashboard/QuickTransactionModal';
+import EditTransactionModal from '@/components/dashboard/EditTransactionModal';
 import { fetchWithClientCache, invalidateClientCache } from '@/lib/client-cache';
 
 export default function TransactionsPage() {
@@ -19,6 +21,7 @@ export default function TransactionsPage() {
   const [accounts, setAccounts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState<any>(null);
   const [typeFilter, setTypeFilter] = useState('all');
   const [accountFilter, setAccountFilter] = useState('all');
 
@@ -139,20 +142,20 @@ export default function TransactionsPage() {
             لا توجد عمليات تطابق التصفية الحالية
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto pb-4">
             <table className="w-full text-right text-sm">
-              <thead className="bg-[#161622] border-b border-[#23232e] text-slate-400 text-xs font-semibold">
+              <thead className="bg-[#161622] border-b border-[#23232e] text-slate-400 text-xs font-semibold whitespace-nowrap">
                 <tr>
-                  <th className="py-3.5 px-4">النوع</th>
-                  <th className="py-3.5 px-4">المبلغ</th>
-                  <th className="py-3.5 px-4">الوصف</th>
-                  <th className="py-3.5 px-4">التصنيف</th>
-                  <th className="py-3.5 px-4">الحساب</th>
-                  <th className="py-3.5 px-4">تاريخ العملية</th>
-                  <th className="py-3.5 px-4 text-center">إجراءات</th>
+                  <th className="py-3.5 px-4 min-w-[120px]">النوع</th>
+                  <th className="py-3.5 px-4 min-w-[100px]">المبلغ</th>
+                  <th className="py-3.5 px-4 min-w-[150px]">الوصف</th>
+                  <th className="py-3.5 px-4 min-w-[100px]">التصنيف</th>
+                  <th className="py-3.5 px-4 min-w-[150px]">الحساب</th>
+                  <th className="py-3.5 px-4 min-w-[120px]">تاريخ العملية</th>
+                  <th className="py-3.5 px-4 text-center min-w-[100px]">إجراءات</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#23232e]">
+              <tbody className="divide-y divide-[#23232e] whitespace-nowrap">
                 {filteredTransactions.map((tx) => {
                   const isIncome = tx.type === 'income';
                   const isExpense = tx.type === 'expense';
@@ -215,13 +218,22 @@ export default function TransactionsPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center">
-                        <button
-                          onClick={() => handleDelete(tx.id)}
-                          className="text-slate-500 hover:text-[#FF0628] p-1.5 rounded-lg hover:bg-red-950/40 transition-colors"
-                          title="حذف واسترجاع الرصيد"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center justify-center gap-1">
+                          <button
+                            onClick={() => setEditingTransaction(tx)}
+                            className="text-slate-500 hover:text-[#0F5FFF] p-1.5 rounded-lg hover:bg-[#0F5FFF]/10 transition-colors"
+                            title="تعديل العملية"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(tx.id)}
+                            className="text-slate-500 hover:text-[#FF0628] p-1.5 rounded-lg hover:bg-red-950/40 transition-colors"
+                            title="حذف واسترجاع الرصيد"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -235,6 +247,17 @@ export default function TransactionsPage() {
       {showAddModal && (
         <QuickTransactionModal
           onClose={() => setShowAddModal(false)}
+          onSuccess={() => {
+            invalidateClientCache('/api/');
+            loadData(true);
+          }}
+        />
+      )}
+
+      {editingTransaction && (
+        <EditTransactionModal
+          transaction={editingTransaction}
+          onClose={() => setEditingTransaction(null)}
           onSuccess={() => {
             invalidateClientCache('/api/');
             loadData(true);
