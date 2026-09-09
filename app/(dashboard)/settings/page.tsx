@@ -37,6 +37,7 @@ export default function SettingsPage() {
   const [savingTelegram, setSavingTelegram] = useState(false);
   const [testingTelegram, setTestingTelegram] = useState(false);
   const [registeringWebhook, setRegisteringWebhook] = useState(false);
+  const [isTelegramLocked, setIsTelegramLocked] = useState(false);
 
   // Profile & Password
   const [name, setName] = useState('');
@@ -65,6 +66,7 @@ export default function SettingsPage() {
         const s = await sRes.json();
         setBotToken(s.telegramBotToken || '');
         setChatId(s.telegramChatId || '');
+        if (s.telegramBotToken) setIsTelegramLocked(true);
         setName(s.name || '');
         setEmail(s.email || '');
         setCurrency(s.currency || 'ج.م');
@@ -109,6 +111,7 @@ export default function SettingsPage() {
         setTelegramError(data.error || 'فشل حفظ الإعدادات');
       } else {
         setTelegramStatus('تم حفظ بيانات تليجرام بنجاح! يمكنك الآن تجربة اختبار الاتصال.');
+        setIsTelegramLocked(true);
       }
     } catch (err) {
       console.error(err);
@@ -348,22 +351,36 @@ export default function SettingsPage() {
           )}
 
           <form onSubmit={handleSaveTelegram} className="space-y-4">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <div className="flex items-center justify-between">
+              <label className="block text-xs font-semibold text-slate-300">
                 رمز البوت (Bot Token)
               </label>
+              {isTelegramLocked && (
+                <button
+                  type="button"
+                  onClick={() => setIsTelegramLocked(false)}
+                  className="text-xs text-[#0F5FFF] hover:underline"
+                >
+                  فتح للتعديل
+                </button>
+              )}
+            </div>
+            <div>
               <input
                 type="password"
+                disabled={isTelegramLocked}
                 value={botToken}
                 onChange={(e) => setBotToken(e.target.value)}
                 placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ..."
-                className="w-full text-sm font-mono px-3 py-2.5 bg-[#181822] border border-[#2e2e3e] text-white rounded-xl text-left dir-ltr focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-600"
+                className="w-full text-sm font-mono px-3 py-2.5 bg-[#181822] border border-[#2e2e3e] text-white rounded-xl text-left dir-ltr focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              <span className="text-xs text-slate-400 mt-1 block">
-                احصل عليه مجانًا من Telegram عبر البحث عن{' '}
-                <b className="text-white">@BotFather</b> وإرسال الأمر{' '}
-                <code className="text-[#FFB50F]">/newbot</code>.
-              </span>
+              {!isTelegramLocked && (
+                <span className="text-xs text-slate-400 mt-1 block">
+                  احصل عليه مجانًا من Telegram عبر البحث عن{' '}
+                  <b className="text-white">@BotFather</b> وإرسال الأمر{' '}
+                  <code className="text-[#FFB50F]">/newbot</code>.
+                </span>
+              )}
             </div>
 
             <div>
@@ -372,30 +389,35 @@ export default function SettingsPage() {
               </label>
               <input
                 type="text"
+                disabled={isTelegramLocked}
                 value={chatId}
                 onChange={(e) => setChatId(e.target.value)}
                 placeholder="مثال: 123456789"
-                className="w-full text-sm font-mono px-3 py-2.5 bg-[#181822] border border-[#2e2e3e] text-white rounded-xl text-left dir-ltr focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-600"
+                className="w-full text-sm font-mono px-3 py-2.5 bg-[#181822] border border-[#2e2e3e] text-white rounded-xl text-left dir-ltr focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              <span className="text-xs text-slate-400 mt-1 block">
-                💡 <b className="text-slate-200">طريقة سهلة جدًا:</b> إذا تركت هذا الحقل فارغًا وحفظت الـ Token، ما عليك سوى فتح البوت في تليجرام وإرسال <code className="text-[#FFB50F] font-bold">/start</code> وسيتم ربط معرفك تلقائيًا!
-              </span>
+              {!isTelegramLocked && (
+                <span className="text-xs text-slate-400 mt-1 block">
+                  💡 <b className="text-slate-200">طريقة سهلة جدًا:</b> إذا تركت هذا الحقل فارغًا وحفظت الـ Token، ما عليك سوى فتح البوت في تليجرام وإرسال <code className="text-[#FFB50F] font-bold">/start</code> وسيتم ربط معرفك تلقائيًا!
+                </span>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                type="submit"
-                disabled={savingTelegram}
-                className="font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 cursor-pointer active:scale-98"
-                style={{
-                  backgroundColor: '#FFB50F',
-                  color: '#000000',
-                  boxShadow: '0 2px 8px rgba(255, 181, 15, 0.4)',
-                }}
-              >
-                {savingTelegram ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
-                <span>حفظ بيانات تليجرام</span>
-              </button>
+              {!isTelegramLocked && (
+                <button
+                  type="submit"
+                  disabled={savingTelegram}
+                  className="font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-2 cursor-pointer active:scale-98"
+                  style={{
+                    backgroundColor: '#FFB50F',
+                    color: '#000000',
+                    boxShadow: '0 2px 8px rgba(255, 181, 15, 0.4)',
+                  }}
+                >
+                  {savingTelegram ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
+                  <span>حفظ بيانات تليجرام</span>
+                </button>
+              )}
 
               <button
                 type="button"
