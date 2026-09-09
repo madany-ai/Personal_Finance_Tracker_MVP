@@ -218,10 +218,11 @@ export default function QuickTransactionModal({ onClose, onSuccess }: QuickTrans
                 step="0.01"
                 required
                 autoFocus
+                dir="ltr"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full text-2xl font-bold px-3 py-2.5 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] transition-all text-left dir-ltr"
+                className="w-full text-2xl font-bold px-3 py-2.5 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] transition-all text-left"
               />
             </div>
 
@@ -305,28 +306,26 @@ export default function QuickTransactionModal({ onClose, onSuccess }: QuickTrans
               </div>
             )}
 
-            {/* Description and Date */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">الوصف (اختياري)</label>
-                <input
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="مثال: غداء عمل، شحن هاتف"
-                  className="w-full text-sm px-3 py-2 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-500"
-                />
-              </div>
+            {/* Date and Description */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">تاريخ العملية</label>
+              <input
+                type="date"
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                className="w-full text-sm px-3 py-2.5 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF]"
+              />
+            </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">تاريخ العملية</label>
-                <input
-                  type="date"
-                  value={transactionDate}
-                  onChange={(e) => setTransactionDate(e.target.value)}
-                  className="w-full text-sm px-3 py-2 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF]"
-                />
-              </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">الوصف (اختياري)</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="مثال: غداء عمل، شحن هاتف"
+                rows={2}
+                className="w-full text-sm px-3 py-2.5 bg-[#181822] border border-[#2a2a38] text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#0F5FFF] placeholder-slate-500 resize-none"
+              />
             </div>
 
             {/* Actions */}

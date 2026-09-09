@@ -77,3 +77,10 @@ button, a {
   -webkit-user-select: none;
 }
 
+/* Fix RTL input cursor and alignment for numbers */
+input[type="number"],
+.dir-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
