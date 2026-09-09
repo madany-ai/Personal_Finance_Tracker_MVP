@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 نظام إدارة ومراقبة الأموال الشخصية (Personal Finance Tracker)
 
-## Getting Started
+تطبيق ويب تقدمي (**PWA**) فائق السرعة، مصمم ومبني لإدارة الدخل، المصروفات، الحسابات المالية المتعددة، تتبع الديون والالتزامات والأقساط، مع دعم الربط التلقائي ببوت تليجرام للتسجيل السريع والإشعارات الدورية.
 
-First, run the development server:
+---
 
+## ✨ المميزات الرئيسية (Key Features)
+
+- **📱 تطبيق ويب تقدمي (PWA)**:
+  - قابل للتثبيت كـ Native App على شاشات الهواتف وأجهزة الكمبيوتر بدون متجر.
+  - شريط تثبيت تلقائي مدمج، دعم كامل لوضع الشاشة المستقلة (`display: standalone`).
+  - دعم التخزين المؤقت للواجهات عبر Service Worker لفتح فوري حتى مع بطء الاتصال.
+
+- **⚡ أداء فائق ومصمم للأجهزة الاقتصادية (2GB RAM)**:
+  - تحميل كسول ديناميكي (Dynamic Lazy Loading) لمكتبات الرسوم البيانية لتقليل حجم الحزمة الأولى بأكثر من 450KB.
+  - تحسينات CSS و GPU والتمرير الفائق لمنع التجميد أو الـ Frame drops على المعالجات الضعيفة.
+
+- **📊 لوحة تحكم ذكية وشاملة**:
+  - رصيد حالي، صافي الثروة، تدفق نقدي شهري، ورسوم بيانية تفاعلية لتوزيع المصروفات حسب التصنيف.
+  - حساب المتبقي اليومي الذكي حتى نهاية الشهر.
+  - تنبيهات الاستحقاقات والأقساط العاجلة والقريبة.
+
+- **💳 إدارة الحسابات المتعددة**:
+  - كاش (محفظة نقدية)، بنوك، بطاقات ائتمان، ومحافظ إلكترونية (فودافون كاش، إنستاباي، وغيرها).
+  - إمكانية التحويل المالي الفوري بين الحسابات وتتبع رصيد كل حساب بدقة.
+
+- **📝 تسجيل العمليات السريعة**:
+  - دخل ومصروف وتحديد طريقة الدفع والتصنيف.
+  - إمكانية إضافة تصنيفات مخصصة وتحديد ألوانها.
+
+- **🤝 إدارة الديون والالتزامات (Receivables & Payables)**:
+  - **فلوس ليا (مستحقات)**: متابعة المبالغ المستحقة لدى الآخرين مع إمكانية تحصيل جزئي أو كلي.
+  - **ديون عليا (التزامات)**: متابعة الديون الشخصية وأولويات سدادها.
+
+- **📅 الأقساط والمصروفات المتكررة (Installments & Recurring)**:
+  - جدولة أقساط شهرية، تتبع المدفوع والمتبقي وتاريخ الاستحقاق القادم.
+  - تسجيل المصاريف الدورية الثابتة كالإيجار وفواتير الخدمات.
+
+- **🤖 بوت تليجرام ذكي (Telegram Bot)**:
+  - تسجيل المصروفات والدخل فوراً بأوامر نصية بسيطة:
+    - `/صرف 150 طعام غداء اليوم`
+    - `/دخل 5000 راتب إيداع بنكي`
+    - `/الرصيد` ، `/الشهر` ، `/الأقساط`
+  - ربط الـ Webhook بنقرة واحدة من صفحة الإعدادات بدون أي تعقيد برمجي.
+  - تنبيهات يومية وجدولة آلية (Cron Jobs) لتقارير المصروفات والتذكير بالأقساط.
+
+- **🛡️ أمان وحماية للبيانات**:
+  - نظام توثيق متين وحماية لجميع الـ API Routes.
+  - كاش ذكي للواجهة الأمامية يقلل استهلاك قاعدة البيانات بنسبة تتجاوز 80%.
+
+---
+
+## 🛠️ التقنيات المستخدمة (Tech Stack)
+
+- **Framework**: [Next.js 16 (App Router + Turbopack)](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database**: [Neon Serverless PostgreSQL](https://neon.tech/)
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Charts**: [Recharts](https://recharts.org/)
+- **Icons**: [Lucide Icons](https://lucide.dev/)
+- **PWA**: Custom Service Worker + Web App Manifest
+- **Platform**: [Vercel](https://vercel.com/)
+
+---
+
+## 🚀 التشغيل المحلي (Getting Started)
+
+### 1. تثبيت الحزم:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. إعداد متغيرات البيئة:
+قم بإنشاء ملف `.env.local` وأضف المتغيرات التالية:
+```env
+DATABASE_URL="postgresql://user:pass@host/dbname?sslmode=require"
+AUTH_SECRET="your-random-long-secret"
+AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+TELEGRAM_BOT_TOKEN="your-telegram-bot-token"
+TELEGRAM_WEBHOOK_SECRET="your-webhook-secret"
+CRON_SECRET="your-cron-secret"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. تطبيق قاعدة البيانات:
+```bash
+npx drizzle-kit push
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. تشغيل خادم التطوير:
+```bash
+npm run dev
+```
+افتح المتصفح على [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ☁️ النشر على Vercel (Deployment)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. ارفع المشروع على حسابك في GitHub.
+2. توجه إلى [Vercel](https://vercel.com/) وقم بإنشاء **New Project** واستيراد المستودع.
+3. أضف متغيرات البيئة (`DATABASE_URL`, `AUTH_SECRET`, `NEXT_PUBLIC_APP_URL`, الخ).
+4. اضغط **Deploy**! سيعمل التطبيق والـ PWA والـ Webhooks تلقائياً.

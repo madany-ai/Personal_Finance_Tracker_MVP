@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14141d"/>
+      <stop offset="100%" stop-color="#07070a"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE072"/>
+      <stop offset="100%" stop-color="#FFB50F"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#387eff"/>
+      <stop offset="100%" stop-color="#0F5FFF"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background with rounded squircles -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" stroke="#23232e" stroke-width="8"/>
+  
+  <!-- Subtle inner circle accent -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#FFB50F" stroke-opacity="0.12" stroke-width="4" stroke-dasharray="8 8"/>
+
+  <!-- Shield / Wallet Outline -->
+  <path d="M160 180 C160 150, 180 130, 210 130 L302 130 C332 130, 352 150, 352 180 L352 320 C352 360, 310 390, 256 405 C202 390, 160 360, 160 320 Z" 
+        fill="url(#blueGrad)" 
+        fill-opacity="0.15" 
+        stroke="url(#blueGrad)" 
+        stroke-width="12" 
+        stroke-linejoin="round"/>
+
+  <!-- Money / Currency Vault Icon inside -->
+  <circle cx="256" cy="245" r="64" fill="url(#goldGrad)" filter="url(#glow)"/>
+  <text x="256" y="275" font-family="Arial, sans-serif" font-size="78" font-weight="900" fill="#000000" text-anchor="middle">ج</text>
+  
+  <!-- Little Sparkle -->
+  <path d="M340 180 Q355 180 355 165 Q355 180 370 180 Q355 180 355 195 Q355 180 340 180" fill="#FFB50F"/>
+</svg>
