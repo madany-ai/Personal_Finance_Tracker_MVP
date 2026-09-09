@@ -174,7 +174,6 @@ export async function PATCH(
         categoryId: type !== 'transfer' ? categoryId : null,
         description: description || null,
         transactionDate: transactionDate ? new Date(transactionDate) : new Date(),
-        updatedAt: new Date(),
       })
       .where(eq(transactions.id, transactionId));
 
