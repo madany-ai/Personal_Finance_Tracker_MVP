@@ -309,11 +309,16 @@ export default function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
-      <div className="bg-[#111116] p-5 rounded-2xl border border-[#23232e] shadow-xl">
-        <h1 className="text-xl font-bold text-white">إعدادات النظام والربط</h1>
-        <p className="text-xs text-slate-400 mt-0.5">
-          إدارة بيانات ربط Telegram Bot، التصنيفات المالية، والحساب الشخصي
-        </p>
+      <div className="bg-[#111116] p-5 rounded-2xl border border-[#23232e] shadow-xl flex items-center gap-3.5">
+        <div className="w-12 h-12 rounded-2xl bg-[#181822] border border-[#272736] flex items-center justify-center text-[#FFB50F] shrink-0 shadow-md">
+          <Settings className="w-6 h-6" />
+        </div>
+        <div>
+          <h1 className="text-xl font-bold text-white">إعدادات النظام والربط</h1>
+          <p className="text-xs text-slate-400 mt-0.5">
+            إدارة بيانات ربط Telegram Bot، التصنيفات المالية، والحساب الشخصي
+          </p>
+        </div>
       </div>
 
       {/* SECTION 1: Telegram Bot Credentials & Setup */}

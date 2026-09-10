@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Lock, Mail, Loader2, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,16 +43,15 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#000000] flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-[#111116] rounded-3xl shadow-2xl border border-[#23232e] p-8">
         {/* Brand Icon & Title */}
-        <div className="text-center mb-8">
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg text-black"
-            style={{
-              backgroundColor: '#FFB50F',
-              boxShadow: '0 8px 24px 0 rgba(255, 181, 15, 0.4)',
-            }}
-          >
-            💰
-          </div>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={72}
+            height={72}
+            priority
+            className="rounded-2xl shadow-xl border border-[#272736] mb-4 shadow-[#FFB50F]/10"
+          />
           <h1 className="text-2xl font-extrabold text-white">إدارة ومراقبة الأموال</h1>
           <p className="text-sm text-slate-400 mt-1">سجل الدخول للمتابعة والتحكم المالي الشخصي</p>
         </div>

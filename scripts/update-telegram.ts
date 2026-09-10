@@ -1,6 +1,7 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 import { db } from '../db';
-import { settings, users } from '../db/schema';
+import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
 async function updateTelegram() {
@@ -11,27 +12,14 @@ async function updateTelegram() {
       return;
     }
     
-    const userId = allUsers[0].id; // Assuming admin is the first user
-    
-    // Check if settings exist for user
-    const userSettings = await db.query.settings.findFirst({
-      where: eq(settings.userId, userId),
-    });
-
+    const userId = allUsers[0].id;
     const botToken = '8962385045:AAFwh2LCvw10SHKaZtmsBHPKi5Hvwem1_YM';
 
-    if (userSettings) {
-      await db.update(settings)
-        .set({ telegramBotToken: botToken })
-        .where(eq(settings.userId, userId));
-      console.log('Settings updated successfully!');
-    } else {
-      await db.insert(settings).values({
-        userId,
-        telegramBotToken: botToken,
-      });
-      console.log('Settings created successfully!');
-    }
+    await db.update(users)
+      .set({ telegramBotToken: botToken })
+      .where(eq(users.id, userId));
+
+    console.log(`Updated user ${allUsers[0].email} (${userId}) with telegramBotToken!`);
   } catch (err) {
     console.error('Error updating settings:', err);
   } finally {
@@ -40,3 +28,4 @@ async function updateTelegram() {
 }
 
 updateTelegram();
+

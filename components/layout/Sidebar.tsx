@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -39,12 +40,13 @@ export default function Sidebar() {
         {/* Brand */}
         <div className="p-6 border-b border-[#1e1e26] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-black font-extrabold text-xl shadow-md"
-              style={{ backgroundColor: '#FFB50F', boxShadow: '0 4px 14px 0 rgba(255, 181, 15, 0.35)' }}
-            >
-              💰
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={42}
+              height={42}
+              className="rounded-xl shadow-md border border-[#272736]"
+            />
             <div>
               <h1 className="font-extrabold text-white text-base leading-tight">إدارة أموالي</h1>
               <span className="text-xs text-slate-400 font-medium">نظام المراقبة الشخصي</span>

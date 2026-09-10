@@ -3,34 +3,42 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { navItems } from './Sidebar';
-import { Bell, ShieldCheck, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const currentNav = navItems.find((item) => item.href === pathname) || { label: 'لوحة التحكم' };
+  const currentNav = navItems.find((item) => item.href === pathname) || { label: 'لوحة التحكم', icon: LayoutDashboard };
+  const CurrentIcon = currentNav.icon || LayoutDashboard;
 
   return (
     <>
-      <header className="bg-[#0c0c10] border-b border-[#1e1e26] sticky top-0 z-30 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+      <header className="bg-[#0c0c10] border-b border-[#1e1e26] sticky top-0 z-30 px-4 sm:px-8 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden p-1.5 -ml-1 text-slate-300 hover:text-white rounded-lg hover:bg-[#181822] transition-colors"
+            className="lg:hidden p-2 text-slate-300 hover:text-white rounded-xl bg-[#181822] border border-[#272736] transition-colors shadow-sm cursor-pointer"
+            aria-label="القائمة الجانبية"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5 text-[#FFB50F]" />
           </button>
-          <div>
-            <h2 className="text-lg font-bold text-white">{currentNav.label}</h2>
-            <p className="text-xs text-slate-400" suppressHydrationWarning>
-              {new Intl.DateTimeFormat('ar-EG', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              }).format(new Date())}
-            </p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-[#181822] border border-[#272736] flex items-center justify-center text-[#FFB50F] shrink-0 shadow-sm">
+              <CurrentIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-white leading-tight">{currentNav.label}</h2>
+              <p className="text-[11px] sm:text-xs text-slate-400" suppressHydrationWarning>
+                {new Intl.DateTimeFormat('ar-EG', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }).format(new Date())}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -51,11 +59,18 @@ export default function Header() {
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <div className="relative w-64 max-w-[80%] bg-[#0c0c10] h-full shadow-2xl flex flex-col border-l border-[#1e1e26] animate-in slide-in-from-right duration-200">
             <div className="p-5 flex items-center justify-between border-b border-[#1e1e26]">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-linear-to-tr from-[#FFB50F] to-[#FF8C00] flex items-center justify-center shadow-lg shadow-[#FFB50F]/20">
-                  <span className="text-black font-bold text-lg">M</span>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/logo.png"
+                  alt="Madany Finance Logo"
+                  width={38}
+                  height={38}
+                  className="rounded-xl shadow-md border border-[#272736]"
+                />
+                <div>
+                  <h3 className="text-white font-extrabold text-base leading-tight">إدارة أموالي</h3>
+                  <span className="text-[11px] text-slate-400">Madany Finance</span>
                 </div>
-                <span className="text-white font-bold text-lg">Madany</span>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}

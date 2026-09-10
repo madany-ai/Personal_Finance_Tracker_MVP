@@ -159,11 +159,16 @@ export default function InstallmentsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#111116] p-5 rounded-2xl border border-[#23232e] shadow-xl">
-        <div>
-          <h1 className="text-xl font-bold text-white">الأقساط والالتزامات المقسطة</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
-            متابعة الأقساط، المدفوع، المتبقي، وتواريخ الاستحقاق القادمة
-          </p>
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-[#181822] border border-[#272736] flex items-center justify-center text-[#FFB50F] shrink-0 shadow-md">
+            <CalendarClock className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">الأقساط والالتزامات المقسطة</h1>
+            <p className="text-xs text-slate-400 mt-0.5">
+              متابعة الأقساط، المدفوع، المتبقي، وتواريخ الاستحقاق القادمة
+            </p>
+          </div>
         </div>
 
         <button
