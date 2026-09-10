@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Download, X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function PWARegister() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
@@ -56,9 +57,13 @@ export default function PWARegister() {
   return (
     <div className="fixed bottom-16 sm:bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 max-w-sm bg-[#14141d] border border-[#FFB50F]/40 p-3.5 rounded-2xl shadow-2xl flex items-center justify-between gap-3 animate-in slide-in-from-bottom-5">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-[#FFB50F] text-black flex items-center justify-center font-bold shrink-0 shadow-md">
-          <Download className="w-5 h-5" />
-        </div>
+        <Image
+          src="/icons/icon-192.png"
+          alt="App Icon"
+          width={38}
+          height={38}
+          className="rounded-xl shadow-md border border-[#272736] shrink-0"
+        />
         <div>
           <div className="font-bold text-white text-xs">تثبيت تطبيق أموالي على الهاتف</div>
           <div className="text-[10px] text-slate-400">تشغيل فوري بشاشة كاملة وخفة فائقة</div>

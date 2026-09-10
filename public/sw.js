@@ -1,10 +1,14 @@
-const CACHE_NAME = 'amwali-pwa-v1';
+const CACHE_NAME = 'amwali-pwa-v3';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
+  '/logo.png',
+  '/favicon.png',
   '/icons/icon.svg',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  '/icons/maskable-icon-192.png',
+  '/icons/maskable-icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
