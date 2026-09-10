@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { payables } from '@/db/schema';
+import { payables, accounts, transactions } from '@/db/schema';
 import { getCurrentUser } from '@/lib/session';
 import { payableSchema } from '@/lib/validators';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, and } from 'drizzle-orm';
 
 export async function GET() {
   try {
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: parsed.error.issues[0]?.message || 'بيانات غير صالحة' }, { status: 400 });
     }
 
-    const { personName, originalAmount, paidAmount, description, dueDate, status } = parsed.data;
+    const { personName, originalAmount, paidAmount, description, dueDate, status, isLoan, depositAccountId } = parsed.data;
     const remaining = originalAmount - paidAmount;
 
     let computedStatus = status;
@@ -56,6 +56,23 @@ export async function POST(req: NextRequest) {
         status: computedStatus,
       })
       .returning();
+
+    if (isLoan && depositAccountId) {
+      const [acc] = await db.select().from(accounts).where(and(eq(accounts.id, depositAccountId), eq(accounts.userId, user.id)));
+      if (acc) {
+        const newBalance = parseFloat(acc.balance) + originalAmount;
+        await db.update(accounts).set({ balance: newBalance.toFixed(2) }).where(eq(accounts.id, acc.id));
+        
+        await db.insert(transactions).values({
+          userId: user.id,
+          accountId: acc.id,
+          type: 'income',
+          amount: originalAmount.toFixed(2),
+          description: `سلفة نقدية من: ${personName}`,
+          transactionDate: new Date().toISOString(),
+        });
+      }
+    }
 
     return NextResponse.json(newPay, { status: 201 });
   } catch (error) {

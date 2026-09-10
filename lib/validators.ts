@@ -48,6 +48,8 @@ export const payableSchema = z.object({
   description: z.string().optional().nullable(),
   dueDate: z.string().optional().nullable(),
   status: z.enum(['مستحق', 'مدفوع جزئيًا', 'تم السداد', 'متأخر']).default('مستحق'),
+  isLoan: z.boolean().optional().default(false),
+  depositAccountId: z.coerce.number().int().positive().optional().nullable(),
 });
 
 export const installmentSchema = z.object({

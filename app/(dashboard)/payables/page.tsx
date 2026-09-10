@@ -15,6 +15,8 @@ export default function PayablesPage() {
   const [originalAmount, setOriginalAmount] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [isLoan, setIsLoan] = useState(false);
+  const [depositAccountId, setDepositAccountId] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [addError, setAddError] = useState('');
 
@@ -36,7 +38,10 @@ export default function PayablesPage() {
         setPayables(await pRes.json());
         const accs = await aRes.json();
         setAccounts(accs);
-        if (accs.length > 0) setSourceAccountId(accs[0].id.toString());
+        if (accs.length > 0) {
+          setSourceAccountId(accs[0].id.toString());
+          setDepositAccountId(accs[0].id.toString());
+        }
       }
     } catch (err) {
       console.error(err);
@@ -63,6 +68,8 @@ export default function PayablesPage() {
           originalAmount: parseFloat(originalAmount) || 0,
           description,
           dueDate: dueDate || null,
+          isLoan,
+          depositAccountId: isLoan ? parseInt(depositAccountId) : null,
         }),
       });
 
@@ -347,7 +354,45 @@ export default function PayablesPage() {
                 />
               </div>
 
-              <div className="pt-2 flex items-center gap-2">
+              <div className="pt-2">
+                <label className="block text-xs font-semibold text-slate-300 mb-2">نوع الالتزام *</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                    <input type="radio" checked={!isLoan} onChange={() => setIsLoan(false)} className="accent-[#0F5FFF]" />
+                    شراء بالآجل (دين فقط)
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                    <input type="radio" checked={isLoan} onChange={() => setIsLoan(true)} className="accent-[#FFB50F]" />
+                    استلاف نقدي (سلفة)
+                  </label>
+                </div>
+              </div>
+
+              {isLoan && (
+                <div className="bg-[#FFB50F]/10 border border-[#FFB50F]/30 p-3 rounded-xl mt-2">
+                  <label className="block text-xs font-semibold text-[#FFB50F] mb-1">
+                    الحساب الذي تم إيداع السلفة فيه *
+                  </label>
+                  <select
+                    required
+                    value={depositAccountId}
+                    onChange={(e) => setDepositAccountId(e.target.value)}
+                    className="w-full text-sm px-3 py-2 bg-[#181822] border border-[#FFB50F]/50 text-white rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#FFB50F]"
+                  >
+                    <option value="" disabled className="bg-[#181822]">اختر الحساب...</option>
+                    {accounts.map((a) => (
+                      <option key={a.id} value={a.id} className="bg-[#181822]">
+                        {a.name} ({formatCurrency(a.balance)})
+                      </option>
+                    ))}
+                  </select>
+                  <span className="text-[10px] text-slate-400 mt-1 block">
+                    سيتم تسجيل الدخل في هذا الحساب لزيادة رصيدك الفعلي.
+                  </span>
+                </div>
+              )}
+
+              <div className="pt-4 flex items-center gap-2">
                 <button
                   type="submit"
                   disabled={submitting}
