@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
           type: 'income',
           amount: originalAmount.toFixed(2),
           description: `سلفة نقدية من: ${personName}`,
-          transactionDate: new Date().toISOString(),
+          transactionDate: new Date(),
         });
       }
     }
