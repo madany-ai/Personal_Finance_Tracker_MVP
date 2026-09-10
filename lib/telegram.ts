@@ -198,7 +198,7 @@ export async function handleTelegramMessage(user: typeof users.$inferSelect, tex
     });
 
     if (pays.length === 0) {
-      return '🎉 ليس عليك أي التزامات أو ديون حاليًا!';
+      return '🎉 ليس عليك ديون أو التزامات، الحمد لله!';
     }
 
     let total = 0;
@@ -219,7 +219,7 @@ export async function handleTelegramMessage(user: typeof users.$inferSelect, tex
     });
 
     if (insts.length === 0) {
-      return '🎉 لا توجد أي أقساط نشطة حالياً!';
+      return '🎉 لا توجد أي أقساط نشطة، الحمد لله!';
     }
 
     let msg = '📋 <b>الأقساط النشطة:</b>\n\n';

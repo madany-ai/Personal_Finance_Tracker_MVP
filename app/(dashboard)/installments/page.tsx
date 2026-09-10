@@ -212,8 +212,8 @@ export default function InstallmentsPage() {
           <span className="text-sm">جاري تحميل الأقساط...</span>
         </div>
       ) : installments.length === 0 ? (
-        <div className="bg-[#111116] p-12 text-center rounded-2xl border border-[#23232e] text-slate-500 text-sm">
-          🎉 ليس لديك أي أقساط مسجلة حاليًا!
+        <div className="bg-[#111116] p-12 text-center rounded-2xl border border-[#23232e] text-slate-500 text-sm font-medium">
+          🎉 لا توجد أي أقساط، الحمد لله!
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -194,8 +194,8 @@ export default function PayablesPage() {
             <span className="text-sm">جاري تحميل البيانات...</span>
           </div>
         ) : payables.length === 0 ? (
-          <div className="p-12 text-center text-slate-500 text-sm">
-            🎉 ليس عليك أي التزامات أو ديون مسجلة حاليًا!
+          <div className="p-12 text-center text-slate-500 text-sm font-medium">
+            🎉 ليس عليك ديون أو التزامات، الحمد لله!
           </div>
         ) : (
           <div className="overflow-x-auto">
