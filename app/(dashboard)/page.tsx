@@ -450,8 +450,12 @@ export default function DashboardPage() {
                     className="flex items-center justify-between p-3.5 rounded-xl bg-[#161622] border border-[#23232e] hover:border-[#323242] transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#0F5FFF]/15 border border-[#0F5FFF]/30 text-[#0F5FFF] flex items-center justify-center font-bold text-xs">
-                        {c.type === 'قسط' ? 'قسط' : 'تكرار'}
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center font-bold text-xs ${
+                        c.type === 'دين'
+                          ? 'bg-[#FF0628]/15 border border-[#FF0628]/30 text-[#FF0628]'
+                          : 'bg-[#0F5FFF]/15 border border-[#0F5FFF]/30 text-[#0F5FFF]'
+                      }`}>
+                        {c.type === 'قسط' ? 'قسط' : c.type === 'دين' ? 'دين' : 'تكرار'}
                       </div>
                       <div>
                         <div className="font-bold text-sm text-white">{c.title}</div>

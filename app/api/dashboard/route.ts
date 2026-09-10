@@ -131,6 +131,14 @@ export async function GET() {
         type: 'مصروف متكرر',
         details: `تكرار: ${r.frequency}`,
       })),
+      ...userPayables.map((p) => ({
+        id: `pay-${p.id}`,
+        title: `دين: ${p.personName}`,
+        amount: parseFloat(p.remainingAmount),
+        dueDate: p.dueDate || new Date().toISOString(),
+        type: 'دين',
+        details: p.description || 'دين/التزام مستحق',
+      })),
     ].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
 
     // 8. الدخل المتوقع القادم
