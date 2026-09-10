@@ -190,8 +190,13 @@ export default function DashboardPage() {
               </div>
             </div>
             <h2 className="text-3xl font-black mt-2 tracking-tight text-white">
-              {formatCurrency(m.currentBalance, curr)}
+              {m.currentBalance < 0 ? formatCurrency(0, curr) : formatCurrency(m.currentBalance, curr)}
             </h2>
+            {m.currentBalance < 0 && (
+              <div className="mt-1.5 text-xs font-bold text-[#FF0628] bg-red-950/80 px-2.5 py-1 rounded-lg inline-flex items-center border border-red-900/50 shadow-sm">
+                عجز في السيولة: {formatCurrency(Math.abs(m.currentBalance), curr)}
+              </div>
+            )}
             <div className="flex flex-wrap items-center gap-2 mt-2.5">
               <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-black/35 text-white border border-white/10">
                 ⚡ سيولة حرة للصرف: {formatCurrency(m.liquidBalance ?? m.currentBalance, curr)}
